@@ -1,63 +1,38 @@
 package gamepanel;
 
+import fonthandler.*;
+
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.BorderLayout;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import stage.*;
 
-public class GamePanel extends JPanel implements Runnable {
+public class GamePanel extends JPanel {
   public final int screenWidth = 1280;
   public final int screenHeight = 720;
 
-  int fps = 30;
-
   Stage stage;
 
-  Thread gameThread;
-
   public GamePanel() {
-    setPreferredSize(new Dimension(screenWidth, screenHeight));
+    setLayout(new BorderLayout());
+
     stage = new Menu(this);
-  }
-
-  public void startGameThread() {
-    gameThread = new Thread(this);
-    gameThread.start();
+    revalidate();
+    add(stage, BorderLayout.CENTER);
   }
 
   @Override
-  public void run() {
-    double drawInterval = 1000000000 / fps;
-    double nextDrawTime = System.nanoTime() + drawInterval;
-
-    while (gameThread != null) {
-      update();
-      repaint();
-
-      // fps handling
-      try {
-        double remainingTime = nextDrawTime - System.nanoTime();
-        remainingTime /= 1000000;
-        remainingTime = remainingTime < 0 ? 0 : remainingTime;
-
-        Thread.sleep((long) remainingTime);
-
-        nextDrawTime += drawInterval;
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
-    }
+  public Dimension getPreferredSize() {
+    return new Dimension(screenWidth, screenHeight);
   }
 
-  public void update() {
-    stage.update();
-  }
-
-  @Override
-  public void paintComponent(Graphics g) {
-    super.paintComponent(g);
-    stage.paint((Graphics2D) g);
+  public void setStage(Stage newStage) {
+    stage = newStage;
   }
 }

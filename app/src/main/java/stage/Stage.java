@@ -2,11 +2,13 @@ package stage;
 
 import gamepanel.GamePanel;
 import java.awt.Graphics2D;
+import javax.swing.JPanel;
 
-public interface Stage {
-  GamePanel gp = null;
+public abstract class Stage extends JPanel {
+  final GamePanel gp;
 
-  void update();
-
-  void paint(Graphics2D g2);
+  public Stage(GamePanel inGp) {
+    super();
+    gp = inGp;
+  }
 }
