@@ -21,10 +21,12 @@ public class GamePanel extends JPanel {
 
   public GamePanel() {
     setLayout(new BorderLayout());
+    setBackground(Color.BLACK);
 
     stage = new Menu(this);
-    revalidate();
     add(stage, BorderLayout.CENTER);
+    revalidate();
+    repaint();
   }
 
   @Override
@@ -32,7 +34,10 @@ public class GamePanel extends JPanel {
     return new Dimension(screenWidth, screenHeight);
   }
 
-  public void setStage(Stage newStage) {
-    stage = newStage;
+  public void setStage(Stage inStage) {
+    remove(stage);
+    stage = inStage;
+    add(stage);
+    revalidate();
   }
 }

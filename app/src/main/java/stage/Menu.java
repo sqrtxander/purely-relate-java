@@ -11,54 +11,65 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 
 public class Menu extends Stage {
-  Font titleFont =
-      FontHandler.customFont("assets/fonts/Oswald/static/Oswald-Regular.ttf", Font.PLAIN, 96);
+  List<JButton> menuButtons = new ArrayList<JButton>();
+  JPanel buttonsPanel;
 
   public Menu(GamePanel gp) {
     super(gp);
-    setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-    setBackground(Color.WHITE);
+    setLayout(null);
+    initTitle("Purely Relate");
+    initMenuButtons();
   }
 
   @Override
   public void doLayout() {
-    layoutTitle();
-    layoutButtons();
+    doLayoutMenuButtons();
     super.doLayout();
   }
 
-  @Override
-  public Dimension getPreferredSize() {
-    return new Dimension(gp.screenWidth, gp.screenHeight);
+  public void initMenuButtons() {
+    buttonsPanel = new JPanel();
+    buttonsPanel.setLayout(new GridLayout(4, 1, 10, 10));
+    buttonsPanel.setBackground(null);
+    //Dimension dims = new Dimension(getWidth() * 3 / 4, getHeight() / 2);
+    //buttons.setPreferredSize(dims);
+    addButton("Relations", buttonsPanel, new Relations(gp));
+    addButton("Progressions", buttonsPanel, new Progressions(gp));
+    addButton("Relating Surfaces", buttonsPanel, null);
+    addButton("Consonants Only", buttonsPanel, null);
+    add(buttonsPanel);
   }
 
-  public void layoutTitle() {
-    JLabel title = new JLabel("Purely Relate");
-    title.setFont(titleFont);
-    title.setAlignmentX(CENTER_ALIGNMENT);
-    add(title);
+  public void doLayoutMenuButtons() {
+    Dimension panelSize = getSize();
+    Insets insets = getInsets();
+
+    int topStart = insets.top + titleLabel.getHeight();
+    int remHeight = panelSize.height - topStart;
+
+    int w = panelSize.width * 3 / 4;
+    int h = panelSize.height /2;
+    int x = insets.left + panelSize.width/8;
+    int y = topStart + (remHeight - h) / 2;
+
+    buttonsPanel.setBounds(x, y, w, h);
   }
 
-  public void layoutButtons() {
-    JPanel buttons = new JPanel();
-    buttons.setLayout(new GridLayout(4, 1, 10, 10));
-    buttons.setBackground(new Color(0, 0, 0, 0));
-    Dimension dims = new Dimension(getWidth() * 3 / 4, getHeight() / 2);
-    buttons.setPreferredSize(dims);
-    addButton("Relations", buttons);
-    addButton("Progressions", buttons);
-    addButton("Relating Surfaces", buttons);
-    addButton("Consonants Only", buttons);
-    buttons.setAlignmentX(CENTER_ALIGNMENT);
-    add(buttons);
-  }
-
-  public void addButton(String label, Container container) {
+  public void addButton(String label, Container container, Stage stage) {
     JButton button = new JButton(label);
     button.setFont(titleFont.deriveFont(48f));
+    if (stage != null) {
+      button.addActionListener(e -> gp.setStage(stage));
+    }
     container.add(button);
+    menuButtons.add(button);
   }
 }
