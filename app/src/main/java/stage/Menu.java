@@ -19,7 +19,6 @@ import java.util.List;
 import javax.swing.*;
 
 public class Menu extends Stage {
-  List<JButton> menuButtons = new ArrayList<JButton>();
   JPanel buttonsPanel;
 
   public Menu(GamePanel gp) {
@@ -39,8 +38,6 @@ public class Menu extends Stage {
     buttonsPanel = new JPanel();
     buttonsPanel.setLayout(new GridLayout(4, 1, 10, 10));
     buttonsPanel.setBackground(null);
-    //Dimension dims = new Dimension(getWidth() * 3 / 4, getHeight() / 2);
-    //buttons.setPreferredSize(dims);
     addButton("Relations", buttonsPanel, new Relations(gp));
     addButton("Progressions", buttonsPanel, new Progressions(gp));
     addButton("Relating Surfaces", buttonsPanel, null);
@@ -52,7 +49,7 @@ public class Menu extends Stage {
     Dimension panelSize = getSize();
     Insets insets = getInsets();
 
-    int topStart = insets.top + titleLabel.getHeight();
+    int topStart = insets.top + titleLabel.getPreferredSize().height;
     int remHeight = panelSize.height - topStart;
 
     int w = panelSize.width * 3 / 4;
@@ -70,6 +67,5 @@ public class Menu extends Stage {
       button.addActionListener(e -> gp.setStage(stage));
     }
     container.add(button);
-    menuButtons.add(button);
   }
 }

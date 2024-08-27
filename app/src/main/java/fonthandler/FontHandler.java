@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class FontHandler {
+  public static String mainFont = "assets/fonts/bahnschrift.ttf";
+
   public static Font customFont(String path, int style, int point) {
     try {
       File fontFile = new File(path);

@@ -18,8 +18,8 @@ public abstract class Stage extends JPanel {
   final GamePanel gp;
   JLabel titleLabel;
   JButton menuButton;
-  Font titleFont =
-    FontHandler.customFont("assets/fonts/Oswald/static/Oswald-Regular.ttf", Font.PLAIN, 96);
+  static Font titleFont =
+    FontHandler.customFont(FontHandler.mainFont, Font.PLAIN, 96);
 
   public Stage(GamePanel inGp) {
     super();
